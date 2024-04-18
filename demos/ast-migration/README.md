@@ -9,7 +9,7 @@ cd demos/ast-migration
 npm i
 npm run migration
 ```
-运行上述命令，`.migration`目录下的脚手架会对`src/App.vue`文件中的内容进行自动化迁移，对文件中的style、template、js进行自动更新替换。
+运行上述命令，`.migration`目录下的脚手架会对`src/App.vue`文件中的内容进行自动化迁移，文件中的style、template、js会被自动更新替换。
 
 如果执行成功，`App.vue`中的内容会产生如下变化：
 
@@ -17,7 +17,7 @@ npm run migration
 <template>
 	<div id="app" class="app">
 		<!-- should be transformed into :onChange="() => {}" -->
--		<swiper @change="() => {}" class="container">hello world</swiper>
+-       <swiper @change="() => {}" class="container">hello world</swiper>
 +       <swiper :onChange="() => {}" class="container">hello world</swiper>
 	</div>
 </template>
@@ -48,6 +48,9 @@ export default {
 
 
 ## 基本思路
+
+自动迁移的基本思路如下：
+
 - 解析：将源代码解析为AST（抽象语法树）。
 - 变换：对AST进行变换。
 - 再建：根据变换后的AST重新构建生成新的代码。
@@ -56,6 +59,8 @@ export default {
 
 
 ## 处理流程
+
+demo中对文件的处理流程可以简述如下：
 
 - js文件：交给gogocode处理。
 - css / less / scss / sass文件：交给postcss处理。
